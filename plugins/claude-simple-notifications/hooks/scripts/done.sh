@@ -55,15 +55,6 @@ fi
 # Log the notification
 echo "$(date): Sent notification - Title: $NOTIFICATION_TITLE, Type: $TYPE" >> "$DEBUG_LOG"
 
-# Play appropriate sound
-if [ "$TYPE" = "permission" ] || [ "$TYPE" = "waiting" ]; then
-    # Play incoming call sound for permission requests and waiting
-    paplay /usr/share/sounds/freedesktop/stereo/phone-incoming-call.oga 2>> "$DEBUG_LOG" &
-else
-    # Play completion sound
-    paplay /usr/share/sounds/freedesktop/stereo/complete.oga 2>> "$DEBUG_LOG" &
-fi
-
 # Speak the notification (text-to-speech)
 if command -v espeak-ng &> /dev/null; then
     espeak-ng "$SPEECH_TEXT" --stdout 2>> "$DEBUG_LOG" | paplay 2>> "$DEBUG_LOG" &
