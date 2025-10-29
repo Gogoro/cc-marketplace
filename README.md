@@ -1,173 +1,98 @@
-# Claude Simple Notifications
+# Claude Marketplace
 
-Desktop and audio notifications for Claude Code task completion and waiting events, with tmux window detection and text-to-speech support.
-
-## Features
-
-- 🔔 **Desktop notifications** - Visual popup when Claude completes tasks or waits for input
-- 🔊 **Audio alerts** - Different sounds for completion vs. waiting
-- 🗣️ **Text-to-speech** - Reads out the window name and task status
-- 🪟 **Tmux integration** - Shows which tmux window Claude is running in
-- 🎯 **Context-aware messages** - Detects what type of operation was performed (Edit, Write, Bash, etc.)
-
-## Requirements
-
-- **Linux** with desktop notification support
-- **notify-send** (usually comes with desktop environments)
-- **paplay** (PulseAudio, typically pre-installed)
-- **espeak-ng** or **espeak** (for text-to-speech)
-- **tmux** (optional, for window detection)
-
-### Installing Dependencies
-
-On Arch Linux:
-```bash
-sudo pacman -S espeak-ng libnotify pulseaudio
-```
-
-On Ubuntu/Debian:
-```bash
-sudo apt install espeak-ng libnotify-bin pulseaudio-utils
-```
+A collection of Claude Code plugins for enhanced productivity and workflow automation.
 
 ## Installation
 
-### Method 1: As a Claude Code Plugin (Recommended)
+### From GitHub (Recommended)
 
-1. Clone this repository:
-   ```bash
-   cd ~/.claude/plugins  # or your preferred plugin location
-   git clone https://github.com/yourusername/claude-simple-notifications.git
-   ```
-
-2. Enable the plugin in your Claude Code settings (`~/.claude/settings.json`):
-   ```json
-   {
-     "enabledPlugins": {
-       "claude-simple-notifications": true
-     }
-   }
-   ```
-
-3. Restart Claude Code or start a new session
-
-### Method 2: Manual Installation
-
-1. Clone this repository anywhere
-2. Add the hooks manually to your `~/.claude/settings.json`:
-   ```json
-   {
-     "hooks": {
-       "Stop": [
-         {
-           "hooks": [
-             {
-               "type": "command",
-               "command": "/path/to/claude-simple-notifications/hooks/scripts/stop-hook.sh"
-             }
-           ]
-         }
-       ],
-       "Notification": [
-         {
-           "hooks": [
-             {
-               "type": "command",
-               "command": "/path/to/claude-simple-notifications/hooks/scripts/notification-hook.sh"
-             }
-           ]
-         }
-       ]
-     }
-   }
-   ```
-
-## How It Works
-
-### Stop Hook
-Triggers when Claude finishes responding to your request. It:
-- Analyzes the JSON input to detect what tools were used
-- Generates a 5-word summary (e.g., "Edited files successfully completed")
-- Shows a desktop notification
-- Plays a completion sound
-- Speaks the window name and task summary
-
-### Notification Hook
-Triggers when Claude is waiting for your input. It:
-- Detects if you're in a tmux session and which window
-- Shows a desktop notification with "Awaiting your input"
-- Plays an incoming call sound (different from completion)
-- Speaks the window name and waiting message
-
-## Customization
-
-### Changing Sounds
-Edit `hooks/scripts/done.sh` and modify these lines:
 ```bash
-# Completion sound
-paplay /usr/share/sounds/freedesktop/stereo/complete.oga
-
-# Waiting sound
-paplay /usr/share/sounds/freedesktop/stereo/phone-incoming-call.oga
+/plugin marketplace add Gogoro/claude-marketplace
 ```
 
-Browse available sounds:
+### From Local Directory (Development)
+
 ```bash
-find /usr/share/sounds -type f -name "*.oga" -o -name "*.ogg"
+/plugin marketplace add ~/work/gogoro/claude-marketplace
 ```
 
-### Disabling Text-to-Speech
-If you don't want TTS, you can remove espeak-ng or modify `hooks/scripts/done.sh` to comment out:
+## Available Plugins
+
+### 🔔 claude-simple-notifications
+
+Desktop and audio notifications for Claude Code task completion and waiting events.
+
+**Features:**
+- Desktop notifications with tmux window detection
+- Audio alerts (different sounds for completion vs. waiting)
+- Text-to-speech support
+- Context-aware messages based on tool usage
+
+**Installation:**
 ```bash
-# espeak-ng "$SPEECH_TEXT" --stdout 2>/dev/null | paplay 2>/dev/null &
+/plugin install claude-simple-notifications@claude-marketplace
 ```
 
-### Custom Messages
-Edit `hooks/scripts/stop-hook.sh` to customize the message detection logic. You can add more tool detections or change the messages:
+**Documentation:** [plugins/claude-simple-notifications/README.md](plugins/claude-simple-notifications/README.md)
+
+## Usage
+
+After adding the marketplace, browse available plugins:
+
 ```bash
-if echo "$INPUT" | grep -q '"name":"YourTool"'; then
-    MESSAGE="Your custom message here"
-elif ...
+/plugin
 ```
 
-## Testing
+Install any plugin:
 
-Test the notification system manually:
 ```bash
-# Test completion notification
-./hooks/scripts/done.sh "Test message" "complete"
-
-# Test waiting notification
-./hooks/scripts/done.sh "Test message" "waiting"
+/plugin install <plugin-name>@claude-marketplace
 ```
 
-## Troubleshooting
+Enable/disable plugins:
 
-### No notifications appearing
-- Check that `notify-send` works: `notify-send "Test" "Hello"`
-- Ensure you have a notification daemon running (usually automatic in desktop environments)
+```bash
+/plugin enable <plugin-name>
+/plugin disable <plugin-name>
+```
 
-### No sound
-- Test paplay: `paplay /usr/share/sounds/freedesktop/stereo/complete.oga`
-- Check PulseAudio is running: `pulseaudio --check`
+## Development
 
-### No text-to-speech
-- Test espeak: `espeak-ng "Hello world" --stdout | paplay`
-- Install espeak-ng if missing
+### Adding a New Plugin
 
-### Hooks not triggering
-- Check Claude Code settings: `cat ~/.claude/settings.json`
-- Look for errors in Claude Code output
-- Check if hooks are executable: `ls -la hooks/scripts/`
+1. Create a new directory under `plugins/`
+2. Add the plugin structure with `.claude-plugin/plugin.json`
+3. Update `.claude-plugin/marketplace.json` to reference the new plugin
+4. Commit and push changes
 
-## License
+### Local Testing
 
-MIT License - See [LICENSE](LICENSE) file for details
+For local development, add the marketplace from your working directory:
+
+```bash
+/plugin marketplace add ~/work/gogoro/claude-marketplace
+```
+
+After making changes to a plugin, reinstall it to test:
+
+```bash
+/plugin uninstall <plugin-name>
+/plugin install <plugin-name>@claude-marketplace
+```
 
 ## Contributing
 
-Contributions welcome! Please open an issue or pull request on GitHub.
+Contributions are welcome! Please:
 
-## Credits
+1. Fork the repository
+2. Create a feature branch
+3. Add your plugin or improvements
+4. Submit a pull request
 
-Created by Ole for use with Claude Code in tmux workflows.
+## License
+
+MIT License - See [LICENSE](LICENSE) file for details.
+
+## Repository
+
+GitHub: [https://github.com/Gogoro/claude-marketplace](https://github.com/Gogoro/claude-marketplace)
