@@ -4,11 +4,13 @@ Desktop and audio notifications for Claude Code task completion and waiting even
 
 ## Features
 
-- 🔔 **Desktop notifications** - Visual popup when Claude completes tasks or waits for input
-- 🔊 **Audio alerts** - Different sounds for completion vs. waiting
+- 🔔 **Desktop notifications** - Visual popup when Claude completes tasks, waits for input, or needs permissions
+- 🔊 **Audio alerts** - Different sounds for completion vs. waiting/permission requests
 - 🗣️ **Text-to-speech** - Reads out the window name and task status
 - 🪟 **Tmux integration** - Shows which tmux window Claude is running in
 - 🎯 **Context-aware messages** - Detects what type of operation was performed (Edit, Write, Bash, etc.)
+- 🔐 **Permission detection** - Alerts you when Claude needs permission to execute a tool
+- 🐛 **Debug logging** - Comprehensive logging for troubleshooting notification issues
 
 ## Requirements
 
@@ -58,6 +60,17 @@ sudo apt install espeak-ng libnotify-bin pulseaudio-utils
    ```json
    {
      "hooks": {
+       "PreToolUse": [
+         {
+           "matcher": ".*",
+           "hooks": [
+             {
+               "type": "command",
+               "command": "/path/to/claude-simple-notifications/hooks/scripts/pretooluse-hook.sh"
+             }
+           ]
+         }
+       ],
        "Stop": [
          {
            "hooks": [
@@ -84,18 +97,32 @@ sudo apt install espeak-ng libnotify-bin pulseaudio-utils
 
 ## How It Works
 
+This plugin uses three Claude Code hooks to provide comprehensive notifications:
+
+### PreToolUse Hook
+Triggers **before** Claude shows the permission UI when it needs to use a tool. It:
+- Fires immediately when any tool requires permission
+- Extracts the tool name from the request
+- Sends a **critical urgency** desktop notification
+- Plays an alert sound (incoming call)
+- Speaks the window name and permission requirement
+- Returns `ask` to allow normal permission flow to continue
+
+**Why this matters:** The PreToolUse hook ensures you get notified immediately when Claude needs permission, even before the UI is shown. This is especially useful if you're working in another window or application.
+
 ### Stop Hook
 Triggers when Claude finishes responding to your request. It:
 - Analyzes the JSON input to detect what tools were used
-- Generates a 5-word summary (e.g., "Edited files successfully completed")
+- Generates a context-aware summary (e.g., "Edited files successfully completed")
 - Shows a desktop notification
 - Plays a completion sound
 - Speaks the window name and task summary
 
 ### Notification Hook
-Triggers when Claude is waiting for your input. It:
+Triggers when Claude is waiting for your input (after 60+ seconds idle). It:
+- Reads the notification input to detect if it's a permission request or idle waiting
 - Detects if you're in a tmux session and which window
-- Shows a desktop notification with "Awaiting your input"
+- Shows a desktop notification
 - Plays an incoming call sound (different from completion)
 - Speaks the window name and waiting message
 
@@ -139,6 +166,9 @@ Test the notification system manually:
 
 # Test waiting notification
 ./hooks/scripts/done.sh "Test message" "waiting"
+
+# Test permission notification
+./hooks/scripts/done.sh "Permission required for Edit" "permission"
 ```
 
 ## Troubleshooting
@@ -146,19 +176,57 @@ Test the notification system manually:
 ### No notifications appearing
 - Check that `notify-send` works: `notify-send "Test" "Hello"`
 - Ensure you have a notification daemon running (usually automatic in desktop environments)
+- Check the debug log for errors (see Debugging section below)
 
 ### No sound
 - Test paplay: `paplay /usr/share/sounds/freedesktop/stereo/complete.oga`
 - Check PulseAudio is running: `pulseaudio --check`
+- Review the debug log for audio errors
 
 ### No text-to-speech
 - Test espeak: `espeak-ng "Hello world" --stdout | paplay`
 - Install espeak-ng if missing
+- Check debug log for TTS-related errors
 
 ### Hooks not triggering
 - Check Claude Code settings: `cat ~/.claude/settings.json`
 - Look for errors in Claude Code output
 - Check if hooks are executable: `ls -la hooks/scripts/`
+- Review the debug log (see below)
+
+### Permission notifications not working
+- The **PreToolUse hook** catches permission requests BEFORE the UI is shown
+- Check the debug log to see if PreToolUse hook is being triggered
+- Ensure you haven't set `bypassPermissions` mode in Claude Code settings
+
+## Debugging
+
+All hooks log detailed information to help troubleshoot issues:
+
+**Debug log location:** `~/.cache/claude-code/notification-debug.log` (or `$XDG_CACHE_HOME/claude-code/notification-debug.log`)
+
+**What's logged:**
+- When each hook is triggered
+- The JSON input received from Claude Code
+- Which notifications were sent
+- Any errors from notify-send, paplay, or espeak-ng
+
+**Viewing the debug log:**
+```bash
+# View the entire log
+cat ~/.cache/claude-code/notification-debug.log
+
+# Watch the log in real-time
+tail -f ~/.cache/claude-code/notification-debug.log
+
+# View recent entries
+tail -30 ~/.cache/claude-code/notification-debug.log
+```
+
+**Clearing the log:**
+```bash
+rm ~/.cache/claude-code/notification-debug.log
+```
 
 ## License
 
