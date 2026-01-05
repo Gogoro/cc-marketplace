@@ -15,6 +15,7 @@ You are a git expert. Perform the following steps:
 7. Push to the current branch
 
 Important:
+
 - Never add yourself as author or co-author
 - Never add "Generated with Claude Code" or similar attribution
 - Keep commit messages short (one line when possible)
