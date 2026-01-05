@@ -1,0 +1,19 @@
+{
+  "name": "cc-notifications",
+  "version": "1.0.0",
+  "description": "Desktop and audio notifications for Claude Code task completion and input waiting events with tmux window detection",
+  "author": {
+    "name": "Ole Herland",
+    "url": "https://github.com/gogoro"
+  },
+  "repository": "https://github.com/gogoro/cc-notifications",
+  "license": "MIT",
+  "keywords": [
+    "notifications",
+    "tmux",
+    "audio",
+    "tts",
+    "desktop-notifications"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

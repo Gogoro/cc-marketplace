@@ -1,52 +1,41 @@
-# Claude Marketplace
+# cc-marketplace
 
-A collection of Claude Code plugins for enhanced productivity and workflow automation.
+Personal Claude Code plugin marketplace.
 
 ## Installation
 
-### From GitHub (Recommended)
-
 ```bash
-/plugin marketplace add Gogoro/claude-marketplace
-```
-
-### From Local Directory (Development)
-
-```bash
-/plugin marketplace add ~/work/gogoro/claude-marketplace
+/plugin marketplace add ~/work/gogoro/cc-marketplace
 ```
 
 ## Available Plugins
 
-### 🔔 claude-simple-notifications
+### cc-workflows
 
-Desktop and audio notifications for Claude Code task completion and waiting events.
+Git workflow commands for streamlined add, commit, push, and PR creation.
 
-**Features:**
-- Desktop notifications with tmux window detection
-- Audio alerts (different sounds for completion vs. waiting)
-- Text-to-speech support
-- Context-aware messages based on tool usage
+**Commands:**
+- `/git-add-commit-push [message]` - Add, commit, and push to current branch
+- `/git-add-commit-push-pr [message]` - Add, commit, push, and create PR
 
-**Installation:**
 ```bash
-/plugin install claude-simple-notifications@claude-marketplace
+/plugin install cc-workflows@cc-marketplace
 ```
 
-**Documentation:** [plugins/claude-simple-notifications/README.md](plugins/claude-simple-notifications/README.md)
+### cc-notifications
+
+Desktop and audio notifications for Claude Code with tmux window detection and text-to-speech.
+
+```bash
+/plugin install cc-notifications@cc-marketplace
+```
 
 ## Usage
 
-After adding the marketplace, browse available plugins:
+After adding the marketplace, install plugins:
 
 ```bash
-/plugin
-```
-
-Install any plugin:
-
-```bash
-/plugin install <plugin-name>@claude-marketplace
+/plugin install <plugin-name>@cc-marketplace
 ```
 
 Enable/disable plugins:
@@ -56,43 +45,6 @@ Enable/disable plugins:
 /plugin disable <plugin-name>
 ```
 
-## Development
-
-### Adding a New Plugin
-
-1. Create a new directory under `plugins/`
-2. Add the plugin structure with `.claude-plugin/plugin.json`
-3. Update `.claude-plugin/marketplace.json` to reference the new plugin
-4. Commit and push changes
-
-### Local Testing
-
-For local development, add the marketplace from your working directory:
-
-```bash
-/plugin marketplace add ~/work/gogoro/claude-marketplace
-```
-
-After making changes to a plugin, reinstall it to test:
-
-```bash
-/plugin uninstall <plugin-name>
-/plugin install <plugin-name>@claude-marketplace
-```
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Add your plugin or improvements
-4. Submit a pull request
-
 ## License
 
-MIT License - See [LICENSE](LICENSE) file for details.
-
-## Repository
-
-GitHub: [https://github.com/Gogoro/claude-marketplace](https://github.com/Gogoro/claude-marketplace)
+MIT

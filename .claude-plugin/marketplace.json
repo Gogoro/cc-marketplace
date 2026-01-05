@@ -1,18 +1,29 @@
 {
-  "name": "claude-marketplace",
+  "name": "cc-marketplace",
   "owner": {
     "name": "Gogoro",
     "url": "https://github.com/Gogoro"
   },
   "plugins": [
     {
-      "name": "claude-simple-notifications",
-      "source": "./plugins/claude-simple-notifications",
-      "description": "Desktop and audio notifications for Claude Code task completion and input waiting events with tmux window detection",
+      "name": "cc-workflows",
+      "source": "./plugins/cc-workflows",
+      "description": "Git workflow commands for streamlined add, commit, push, and PR creation",
       "version": "1.0.0",
       "author": {
-        "name": "Ole",
-        "url": "https://github.com/olehrland"
+        "name": "Ole Herland",
+        "url": "https://github.com/Gogoro"
+      },
+      "keywords": ["git", "workflow", "commit", "push", "pull-request"]
+    },
+    {
+      "name": "cc-notifications",
+      "source": "./plugins/cc-notifications",
+      "description": "Desktop and audio notifications for Claude Code with tmux window detection",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ole Herland",
+        "url": "https://github.com/Gogoro"
       },
       "keywords": ["notifications", "tmux", "audio", "tts", "desktop-notifications"]
     }

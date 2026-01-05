@@ -1,0 +1,19 @@
+{
+  "name": "cc-workflows",
+  "version": "1.0.0",
+  "description": "Git workflow commands for streamlined add, commit, push, and PR creation",
+  "author": {
+    "name": "Ole Herland",
+    "url": "https://github.com/gogoro"
+  },
+  "repository": "https://github.com/gogoro/cc-workflows",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "workflow",
+    "commit",
+    "push",
+    "pull-request"
+  ],
+  "commands": "./commands"
+}
