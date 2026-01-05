@@ -1,0 +1,20 @@
+{
+  "name": "cc-session-tools",
+  "version": "1.0.0",
+  "description": "Time tracking and context saving for Claude Code sessions",
+  "author": {
+    "name": "Ole Herland",
+    "url": "https://github.com/Gogoro"
+  },
+  "repository": "https://github.com/Gogoro/cc-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "time-tracking",
+    "session",
+    "context",
+    "resume",
+    "productivity"
+  ],
+  "hooks": "./hooks/hooks.json",
+  "commands": "./commands"
+}

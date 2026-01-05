@@ -26,6 +26,28 @@
         "url": "https://github.com/Gogoro"
       },
       "keywords": ["notifications", "tmux", "audio", "tts", "desktop-notifications"]
+    },
+    {
+      "name": "cc-session-tools",
+      "source": "./plugins/cc-session-tools",
+      "description": "Time tracking and context saving for Claude Code sessions",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ole Herland",
+        "url": "https://github.com/Gogoro"
+      },
+      "keywords": ["time-tracking", "session", "context", "resume", "productivity"]
+    },
+    {
+      "name": "cc-agents",
+      "source": "./plugins/cc-agents",
+      "description": "Code reviewer and refactorer agents for Claude Code",
+      "version": "1.0.0",
+      "author": {
+        "name": "Ole Herland",
+        "url": "https://github.com/Gogoro"
+      },
+      "keywords": ["code-review", "refactoring", "agents", "quality"]
     }
   ]
 }

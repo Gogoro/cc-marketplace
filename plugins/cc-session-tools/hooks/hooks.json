@@ -1,0 +1,27 @@
+{
+  "description": "Time tracking and context saving hooks",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/time-tracker.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/context-saver.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

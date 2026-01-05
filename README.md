@@ -30,6 +30,35 @@ Desktop and audio notifications for Claude Code with tmux window detection and t
 /plugin install cc-notifications@cc-marketplace
 ```
 
+### cc-session-tools
+
+Time tracking and context saving for Claude Code sessions.
+
+**Commands:**
+- `/time-report` - View time tracking report
+- `/resume-session` - Resume from saved session context
+
+**Features:**
+- Automatic time tracking per project
+- Full session context saved on exit
+- Keep last 20 sessions for easy resume
+
+```bash
+/plugin install cc-session-tools@cc-marketplace
+```
+
+### cc-agents
+
+Code reviewer and refactorer agents.
+
+**Agents:**
+- **Code Reviewer** - Reviews code for bugs, security issues, and best practices
+- **Refactorer** - Analyzes code and suggests refactoring improvements
+
+```bash
+/plugin install cc-agents@cc-marketplace
+```
+
 ## Usage
 
 After adding the marketplace, install plugins:

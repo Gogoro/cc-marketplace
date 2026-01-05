@@ -1,0 +1,18 @@
+{
+  "name": "cc-agents",
+  "version": "1.0.0",
+  "description": "Code reviewer and refactorer agents for Claude Code",
+  "author": {
+    "name": "Ole Herland",
+    "url": "https://github.com/Gogoro"
+  },
+  "repository": "https://github.com/Gogoro/cc-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "refactoring",
+    "agents",
+    "quality"
+  ],
+  "agents": "./agents"
+}
